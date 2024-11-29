@@ -5,5 +5,22 @@
  * @returns {boolean}
  */
 module.exports.hasProperty = function hasProperty(object, prop) {
-  throw new Error('Not implemented'); // remove me and write a solution
+  let isPrototype = false;
+  do {
+    Object.getOwnPropertyNames(Object.prototype).forEach(function (keyPrototype) {
+      if (keyPrototype === prop) {
+        isPrototype = true;
+      }
+    });
+    if (isPrototype) {
+      return true;
+    }
+  } while ((Object.prototype = Object.getPrototypeOf(Object.prototype)));
+  for (let key in object) {
+    if (key === prop) {
+      return true;
+    }
+  }
+
+  return false;
 };
