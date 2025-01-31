@@ -1,32 +1,52 @@
 class User {
+  #firstName;
+  #secondName;
+  #age;
   constructor(firstName, secondName, age) {
-    if (!firstName || typeof firstName !== 'string') {
+    if (typeof firstName !== 'string' || typeof secondName !== 'string' || typeof age !== 'number') {
       throw new Error();
     }
-    if (!secondName || typeof secondName !== 'string') {
-      throw new Error();
-    }
-    if (typeof age !== 'number' || isNaN(age)) {
-      throw new Error();
-    }
-    this._firstName = firstName;
-    this.secondName = secondName;
-    this.age = age;
+    this.#firstName = firstName;
+    this.#secondName = secondName;
+    this.#age = age;
   }
-  set firstName(FirstName) {
-    if (!FirstName || typeof FirstName !== 'string') {
+
+  get age() {
+    return this.#age;
+  }
+
+  set age(value) {
+    if (!Number.isInteger(value)) {
+      throw new Error('Age must be an integer.');
+    }
+    this.#age = value;
+  }
+
+  set firstName(newFirstName) {
+    if (!newFirstName || typeof newFirstName !== 'string') {
       throw new Error();
     }
-    this._firstName = FirstName;
+    this.#firstName = newFirstName;
   }
+
+  set secondName(value) {
+    if (typeof value !== 'string') {
+      throw new Error('lastName must be a string.');
+    }
+    this.#secondName = value;
+  }
+
   get name() {
-    return `${this._firstName} ${this.secondName}`;
+    return `${this.#firstName} ${this.#secondName}`;
   }
+
   celebrateBirthday() {
-    this.age += 1;
+    this.#age += 1;
+    return this.#age;
   }
+
   introduce() {
-    return `My name is ${this._firstName} ${this.secondName}, I'm ${this.age}`;
+    return `My name is ${this.#firstName} ${this.#secondName}, I'm ${this.#age}`;
   }
 }
 
@@ -53,27 +73,21 @@ module.exports.createUser = function (firstName, secondName, age) {
  * @returns {Array<User>}
  */
 module.exports.createUsers = function (data) {
-  let user = [];
+  let users = [];
   for (let i = 0; i < data.length; i++) {
-    user.push(new User(data[i].firstName, data[i].secondName, data[i].age));
+    users.push(new User(data[i].firstName, data[i].secondName, data[i].age));
   }
-  return user;
+  return users;
 };
 
 /**
- * Find Users in Array of Users
+ * Find Users in Array of Users who's age equals the provided age
  * @param {Array<Users>} users
  * @param {number} age
  * @returns {Array<Users>}
  */
 module.exports.findUsersByAge = function (users, age) {
-  let user = [];
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].age === age) {
-      user.push(users[i]);
-    }
-  }
-  return user;
+  return users.filter(user => user.age === age);
 };
 
 /**
