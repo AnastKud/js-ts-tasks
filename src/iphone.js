@@ -2,18 +2,17 @@
 // https://codepen.io/adielhercules/pen/dJJGBQ
 
 customElements.define(
-  "iphone-frame",
-  class extends HTMLElement {
-    constructor() {
-      super();
+    "iphone-frame",
+    class extends HTMLElement {
+        constructor() {
+            super();
 
-      const shadowRoot = this.attachShadow({ mode: "open" });
-    }
+            const shadowRoot = this.attachShadow({ mode: "open" });
+        }
 
-    connectedCallback() {
-      this.shadowRoot.innerHTML = `
+        connectedCallback() {
+            this.shadowRoot.innerHTML = `
        <style>
-        @charset "UTF-8";
         body {
         background: #f4f6fc;
         }
@@ -141,6 +140,6 @@ customElements.define(
         </div>
     </div>
     `;
+        }
     }
-  }
 );
